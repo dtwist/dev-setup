@@ -1,5 +1,5 @@
-# Make vim the default editor.
-export EDITOR='vim';
+# Make nano the default editor.
+export EDITOR='nano';
 
 # Enable persistent REPL history for `node`.
 NODE_REPL_HISTORY_FILE=~/.node_history;
@@ -10,7 +10,8 @@ NODE_REPL_HISTORY_SIZE='32768';
 export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
-export HISTCONTROL='ignoreboth';
+export HISTCONTROL='ignoreboth:erasedups';
+export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
