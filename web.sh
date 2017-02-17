@@ -74,24 +74,35 @@ fi
 # Update Apache config:
 # 1. Set default webroot to ~/Sites (and update corresponding Directory block)
 # 2. Set AllowOverride to All for the default directory only
-# 3. Make sure mod_rewrite is enabled
-# 4. Set User to your current user
-# 5. Set Group to 'staff'
+# 3. Enable required modules
+# 4. ""
+# 5. ""
+# 6. ""
+# 7. Include SSL config
+# 8. Set User to your current user
+# 9. Set Group to 'staff'
 sed -E -i.orig \
   -e "s|/usr/local/var/www/htdocs|/Users/`whoami`/Sites|" \
   -e "/Directory \"?\/Users\/`whoami`\/Sites\"?/,/<\/Directory>/ s|AllowOverride None|AllowOverride All|" \
   -e "s|#(LoadModule.*mod_rewrite.so)|\1|" \
+  -e "s|#(LoadModule.*mod_socache_shmcb.so.so)|\1|" \
+  -e "s|#(LoadModule.*mod_rewrite.so)|\1|" \
+  -e "s|#(LoadModule.*mod_vhost_alias.so)|\1|" \
+  -e "s|#(Include.*httpd-ssl.conf)|\1|" \
   -e "s|^User.*|User `whoami`|" \
   -e "s|^Group.*|Group staff|" \
   $HTTPD_CONF_PATH
 
 
-# 6. Add vhosts include
+# 10. Add vhosts include
 cat <<EOT >> $HTTPD_CONF_PATH
 
 # Include our VirtualHosts
 Include /Users/`whoami`/Sites/httpd-vhosts.conf
 EOT
+
+# Set up Self-signed certificate
+openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout /usr/local/etc/apache2/2.4/server.key -out /usr/local/etc/apache2/2.4/server.crt
 
 
 # Install Multiple PHP versions
