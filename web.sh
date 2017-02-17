@@ -2,7 +2,7 @@
 
 # Install command-line tools using Homebrew.
 
-DEV_SETUP_DIR = pwd
+DEV_SETUP_DIR=pwd
 
 # Ask for the administrator password upfront.
 sudo -v
@@ -40,7 +40,7 @@ echo "Replacing Built-in Apache with Homebrew version"
 sudo apachectl stop
 sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
 brew install httpd24 --with-privileged-ports --with-http2
-PATH_HTTPD24 = `brew --prefix httpd24`
+PATH_HTTPD24=`brew --prefix httpd24`
 sudo cp -v $PATH_HTTPD24/homebrew.mxcl.httpd24.plist /Library/LaunchDaemons
 sudo chown -v root:wheel /Library/LaunchDaemons/homebrew.mxcl.httpd24.plist
 sudo chmod -v 644 /Library/LaunchDaemons/homebrew.mxcl.httpd24.plist
